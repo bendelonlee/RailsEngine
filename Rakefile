@@ -4,3 +4,24 @@
 require_relative 'config/application'
 
 Rails.application.load_tasks
+
+namespace :import do
+  task :customers => :environment do
+    ruby "./lib/tasks/import_customers.rb"
+  end
+  task :merchants => :environment do
+    ruby "./lib/tasks/import_merchants.rb"
+  end
+  task :items => :environment do
+    ruby "./lib/tasks/import_items.rb"
+  end
+  task :invoices => :environment do
+    ruby "./lib/tasks/import_invoices.rb"
+  end
+  task :invoice_items => :environment do
+    ruby "./lib/tasks/import_invoice_items.rb"
+  end
+  task :transactions => :environment do
+    ruby "./lib/tasks/import_transactions.rb"
+  end
+end
