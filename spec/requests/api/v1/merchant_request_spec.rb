@@ -26,20 +26,20 @@ describe 'merchant requests' do
 
     get "/api/v1/merchants/find?name=#{expected_merchant.name}"
 
-    returned_merchant = JSON.parse(response.body)
-    expect(returned_merchant["id"]).to eq(expected_merchant.id)
+    returned_merchant = JSON.parse(response.body)["data"]
+    expect(returned_merchant["id"]).to eq(expected_merchant.id.to_s)
 
     expected_merchant = Merchant.last
     expected_merchant.update(created_at: 5.days.ago)
     get "/api/v1/merchants/find?created_at=#{expected_merchant.created_at}"
 
-    returned_merchant = JSON.parse(response.body)
-    expect(returned_merchant["id"]).to eq(expected_merchant.id)
+    returned_merchant = JSON.parse(response.body)["data"]
+    expect(returned_merchant["id"]).to eq(expected_merchant.id.to_s)
 
     expected_merchant = Merchant.first
     get "/api/v1/merchants/find?id=#{expected_merchant.id}"
 
-    returned_merchant = JSON.parse(response.body)
-    expect(returned_merchant["id"]).to eq(expected_merchant.id)
+    returned_merchant = JSON.parse(response.body)["data"]
+    expect(returned_merchant["id"]).to eq(expected_merchant.id.to_s)
   end
 end
