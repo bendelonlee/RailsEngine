@@ -7,7 +7,8 @@ describe 'merchant requests' do
     get '/api/v1/merchants'
 
     expect(response).to be_successful
-    returned_merchants = JSON.parse(response.body)
+
+    returned_merchants = JSON.parse(response.body)["data"]
     expect(returned_merchants.count).to eq(3)
   end
   it 'returns a specific merchant' do
@@ -16,8 +17,8 @@ describe 'merchant requests' do
     get "/api/v1/merchants/#{id}"
 
     expect(response).to be_successful
-    returned_merchant = JSON.parse(response.body)
-    expect(returned_merchant["id"]).to eq(id)
+    returned_merchant = JSON.parse(response.body)["data"]
+    expect(returned_merchant["id"]).to eq(id.to_s)
   end
   it 'finds a specific merchant by attribute' do
     create_list(:merchant, 4)
