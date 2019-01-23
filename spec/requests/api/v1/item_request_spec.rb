@@ -8,7 +8,7 @@ describe 'item requests' do
     get '/api/v1/items'
 
     expect(response).to be_successful
-    returned_items = JSON.parse(response.body)
+    returned_items = JSON.parse(response.body)["data"]
     expect(returned_items.count).to eq(3)
   end
   it 'returns a specific item' do
@@ -18,8 +18,8 @@ describe 'item requests' do
     get "/api/v1/items/#{id}"
 
     expect(response).to be_successful
-    returned_item = JSON.parse(response.body)
-    expect(returned_item["id"]).to eq(id)
+    returned_item = JSON.parse(response.body)["data"]
+    expect(returned_item["id"]).to eq(id.to_s)
 
   end
 end

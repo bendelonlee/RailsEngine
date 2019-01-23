@@ -9,7 +9,7 @@ describe 'merchant relationship requests' do
 
     get "/api/v1/merchants/#{merchant.id}/items"
     expect(response).to be_successful
-    items = JSON.parse(response.body)#["data"]
-    expect(items.count).to eq(3)
+    returned_items = JSON.parse(response.body)["data"]
+    expect(returned_items.count).to eq(3)
   end
 end
