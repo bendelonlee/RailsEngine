@@ -1,6 +1,6 @@
 require "rails_helper"
 
-describe 'AllMerchant business intelligence endpoints' do
+describe 'Merchant business intelligence endpoints for all merchants' do
   it 'returns top x merchants ranked by revenue' do
     m1, m2, m3, m4, m5 = create_list(:merchant, 5)
 
@@ -22,6 +22,14 @@ describe 'AllMerchant business intelligence endpoints' do
     create_list(:invoice_item, 1, quantity: 14, item: item_1, unit_price: 10, invoice: invoice_1)
 
     get "/api/v1/merchants/most_revenue?quantity=#{4}"
-    
+    expect(response).to be_successful
+    returned_merchants = JSON.parse(response.body)["data"]
+    expect(returned_merchants.count).to eq(4)
+    expect(returned_merchants.first["id"]).to eq(m5.id.to_s)
+    expect(returned_merchants.second["id"]).to eq(m1.id.to_s)
+    expect(returned_merchants.third["id"]).to eq(m4.id.to_s)
+    expect(returned_merchants.last["id"]).to eq(m2.id.to_s)
   end
+
+
 end
