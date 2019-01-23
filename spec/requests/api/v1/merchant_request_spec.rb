@@ -36,5 +36,10 @@ describe 'merchant requests' do
     returned_merchant = JSON.parse(response.body)
     expect(returned_merchant["id"]).to eq(expected_merchant.id)
 
+    expected_merchant = Merchant.first
+    get "/api/v1/merchants/find?id=#{expected_merchant.id}"
+
+    returned_merchant = JSON.parse(response.body)
+    expect(returned_merchant["id"]).to eq(expected_merchant.id)
   end
 end
