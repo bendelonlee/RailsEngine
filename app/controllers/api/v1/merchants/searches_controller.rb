@@ -1,4 +1,4 @@
-class Merchants::SearchesController < ApplicationController
+class Api::V1::Merchants::SearchesController < ApplicationController
   def show
     attribute = (Merchant.attribute_names & params.keys).first
     case attribute

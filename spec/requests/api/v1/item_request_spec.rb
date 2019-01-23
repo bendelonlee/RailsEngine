@@ -5,7 +5,7 @@ describe 'item requests' do
     merchant = create(:merchant)
     create_list(:item, 3, merchant: merchant)
 
-    get '/items'
+    get '/api/v1/items'
 
     expect(response).to be_successful
     returned_items = JSON.parse(response.body)
@@ -15,7 +15,7 @@ describe 'item requests' do
     merchant = create(:merchant)
     id = create(:item, merchant: merchant).id
 
-    get "/items/#{id}"
+    get "/api/v1/items/#{id}"
 
     expect(response).to be_successful
     returned_item = JSON.parse(response.body)

@@ -4,7 +4,7 @@ describe 'merchant requests' do
   it 'returns a list of all merchants' do
     create_list(:merchant, 3)
 
-    get '/merchants'
+    get '/api/v1/merchants'
 
     expect(response).to be_successful
     returned_merchants = JSON.parse(response.body)
@@ -13,7 +13,7 @@ describe 'merchant requests' do
   it 'returns a specific merchant' do
     id = create(:merchant).id
 
-    get "/merchants/#{id}"
+    get "/api/v1/merchants/#{id}"
 
     expect(response).to be_successful
     returned_merchant = JSON.parse(response.body)
@@ -23,14 +23,14 @@ describe 'merchant requests' do
     create_list(:merchant, 4)
     expected_merchant = Merchant.second
 
-    get "/merchants/find?name=#{expected_merchant.name}"
+    get "/api/v1/merchants/find?name=#{expected_merchant.name}"
 
     returned_merchant = JSON.parse(response.body)
     expect(returned_merchant["id"]).to eq(expected_merchant.id)
 
     expected_merchant = Merchant.last
     expected_merchant.update(created_at: 5.days.ago)
-    get "/merchants/find?created_at=#{expected_merchant.created_at}"
+    get "/api/v1/merchants/find?created_at=#{expected_merchant.created_at}"
 
     returned_merchant = JSON.parse(response.body)
     expect(returned_merchant["id"]).to eq(expected_merchant.id)
