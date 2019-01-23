@@ -31,5 +31,15 @@ describe 'Merchant business intelligence endpoints for all merchants' do
     expect(returned_merchants.last["id"]).to eq(m2.id.to_s)
   end
 
+  describe 'Merchant business intelligence endpoints for individual merchants' do
+    it "returns a merchant's revenue" do
+      merchant = create(:merchant)
+      item = create(:item, merchant: merchant)
+      invoice = create(:invoice, merchant: merchant)
+
+      create_list(:invoice_item, 2, quantity: 2, unit_price: 200)
+      get "/api/v1/merchants/:id/revenue"
+    end
+  end
 
 end
