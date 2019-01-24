@@ -34,7 +34,7 @@ RSpec.describe Merchant, type: :model do
       merchant = create(:merchant)
       item = create(:item, merchant: merchant)
       invoice = create(:invoice, merchant: merchant)
-      transaction = create(:transaction, invoice: invoice)
+      # transaction = create(:transaction, invoice: invoice)
 
       create_list(:invoice_item, 2, quantity: 2, unit_price: 200, item: item, invoice: invoice)
       create_list(:invoice_item, 1, quantity: 1, unit_price: 100, item: item, invoice: invoice)

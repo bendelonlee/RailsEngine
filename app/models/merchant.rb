@@ -10,7 +10,7 @@ class Merchant < ApplicationRecord
   def self.merchants_with_invoice_items
     joins(invoices: [:invoice_items, :transactions])
     .where(transactions: {result: 0})
-    .group(:id)
+    .group("merchants.id, invoices.id")
   end
 
   def revenue

@@ -42,4 +42,26 @@ describe 'merchant requests' do
     returned_merchant = JSON.parse(response.body)["data"]
     expect(returned_merchant["id"]).to eq(expected_merchant.id.to_s)
   end
+  describe 'finds a group of merchants by attribute' do
+    before(:each) do
+      create_list(:merchant, 9)
+      num_merchants = rand(1..5)
+      @expected_merchants = Merchant.limit(num_merchants)
+      @expected_ids = @expected_merchants.pluck(:id).map(&:to_s)
+    end
+    it 'finds all by name' do
+      @attribute = {name: "Jerry"}
+    end
+    xit 'finds all by updated_at' do
+      @attribute = {updated_at: 1.days.ago}
+    end
+    after(:each) do
+      @expected_merchants.update(name: @attribute[:name])
+      attr_name = @attribute.keys[0]
+      get "/api/v1/merchants/find_all?#{attr_name}=#{@attribute[attr_name]}"
+      returned_merchants = JSON.parse(response.body)["data"]
+      returned_ids = returned_merchants.map{|m| m["id"]}
+      expect(returned_ids).to eq(@expected_ids)
+    end
+  end
 end
