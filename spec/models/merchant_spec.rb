@@ -15,11 +15,11 @@ RSpec.describe Merchant, type: :model do
       item_1 = create(:item,  merchant: m2)
       item_0 = create(:item,  merchant: m3)
 
-      invoice_4 = create(:invoice, merchant: m5)
-      invoice_3 = create(:invoice,  merchant: m1)
-      invoice_2 = create(:invoice, merchant: m4)
-      invoice_1 = create(:invoice,  merchant: m2)
-      invoice_0 = create(:invoice,  merchant: m3)
+      invoice_4 = create(:invoice, merchant: m5 )
+      invoice_3 = create(:invoice,  merchant: m1 )
+      invoice_2 = create(:invoice, merchant: m4 )
+      invoice_1 = create(:invoice,  merchant: m2 )
+      invoice_0 = create(:invoice,  merchant: m3 )
 
       create_list(:invoice_item, 5, quantity: 2, item: item_4, unit_price: 1000, invoice: invoice_4)
       create_list(:invoice_item, 1, quantity: 2, item: item_3, unit_price: 2000, invoice: invoice_3)
@@ -34,6 +34,7 @@ RSpec.describe Merchant, type: :model do
       merchant = create(:merchant)
       item = create(:item, merchant: merchant)
       invoice = create(:invoice, merchant: merchant)
+      transaction = create(:transaction, invoice: invoice)
 
       create_list(:invoice_item, 2, quantity: 2, unit_price: 200, item: item, invoice: invoice)
       create_list(:invoice_item, 1, quantity: 1, unit_price: 100, item: item, invoice: invoice)

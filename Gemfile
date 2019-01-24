@@ -35,12 +35,12 @@ group :development, :test do
   gem 'shoulda-matchers', '~> 3.1'
   gem 'pry'
   gem 'simplecov'
+  gem 'table_print'
 end
 
 group :development do
   # Access an IRB console on exception pages or by using <%= console %> anywhere in the code.
   gem 'listen', '>= 3.0.5', '< 3.2'
-  gem 'table_print'
 end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem

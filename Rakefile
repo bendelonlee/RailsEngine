@@ -24,6 +24,9 @@ namespace :import do
   task :transactions => :environment do
     ruby "./lib/tasks/import_transactions.rb"
   end
+  task :clean_invoice_status do
+    ruby "./lib/tasks/clean_invoice_status.rb"
+  end
   task :all => :environment do
     Rake::Task["import:merchants"].invoke
     Rake::Task["import:customers"].invoke
