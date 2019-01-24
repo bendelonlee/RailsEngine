@@ -47,6 +47,19 @@ describe 'Merchant business intelligence endpoints for all merchants' do
       returned_revenue = JSON.parse(response.body)["data"]["attributes"]["revenue"]
       expect(returned_revenue).to eq "9.00"
     end
-  end
 
+    it 'returns a merchants favorite customer' do
+      merchant = create(:merchant)
+      item = create(:item, merchant: merchant)
+      customer_1 = create(:customer)
+      customer_2 = create(:customer)
+      invoice = create_list(:invoice, 4, merchant: merchant, customer: customer_1, items: [item])
+      invoice = create_list(:invoice, 1, merchant: merchant, customer: customer_2, items: [item])
+
+      get "/api/v1/merchants/#{merchant.id}/favorite_customer"
+      expect(response).to be_successful
+      returned_customer = JSON.parse(response.body)["data"]
+      expect(returned_customer["id"]).to eq(customer_1.id.to_s)
+    end
+  end
 end

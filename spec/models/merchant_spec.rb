@@ -30,6 +30,15 @@ RSpec.describe Merchant, type: :model do
     end
   end
   describe 'instance methods' do
+    it '.favorite_customer' do
+      merchant = create(:merchant)
+      item = create(:item, merchant: merchant)
+      customer_1 = create(:customer)
+      customer_2 = create(:customer)
+      invoice = create_list(:invoice, 4, merchant: merchant, customer: customer_1, items: [item])
+      invoice = create_list(:invoice, 1, merchant: merchant, customer: customer_2, items: [item])
+      expect(merchant.favorite_customer).to eq(customer_1)
+    end
     it '.total_revenue' do
       merchant = create(:merchant)
       item = create(:item, merchant: merchant)

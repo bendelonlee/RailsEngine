@@ -10,7 +10,11 @@ class Merchant < ApplicationRecord
   def self.merchants_with_invoice_items
     joins(invoices: [:invoice_items, :transactions])
     .where(transactions: {result: 0})
-    .group("merchants.id, invoices.id")
+    .group("merchants.id")
+  end
+
+  def favorite_customer
+    Customer.with_invoice_items.joins(invoices: :merchant).where(merchants: {id: self.id} ).order("count(invoice_items) desc").limit(1).first
   end
 
   def revenue
