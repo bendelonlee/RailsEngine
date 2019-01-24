@@ -29,4 +29,17 @@ RSpec.describe Merchant, type: :model do
       expect(Merchant.most_revenue(3)).to eq([m5,m1,m4])
     end
   end
+  describe 'instance methods' do
+    it '.total_revenue' do
+      merchant = create(:merchant)
+      item = create(:item, merchant: merchant)
+      invoice = create(:invoice, merchant: merchant)
+
+      create_list(:invoice_item, 2, quantity: 2, unit_price: 200, item: item, invoice: invoice)
+      create_list(:invoice_item, 1, quantity: 1, unit_price: 100, item: item, invoice: invoice)
+
+      create_list(:invoice_item, 1, quantity: 1, unit_price: 100)
+      expect(merchant.total_revenue).to eq(900)
+    end
+  end
 end

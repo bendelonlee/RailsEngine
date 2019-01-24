@@ -37,8 +37,14 @@ describe 'Merchant business intelligence endpoints for all merchants' do
       item = create(:item, merchant: merchant)
       invoice = create(:invoice, merchant: merchant)
 
-      create_list(:invoice_item, 2, quantity: 2, unit_price: 200)
-      get "/api/v1/merchants/:id/revenue"
+      create_list(:invoice_item, 2, quantity: 2, unit_price: 200, item: item, invoice: invoice)
+      create_list(:invoice_item, 1, quantity: 1, unit_price: 100, item: item, invoice: invoice)
+
+      create_list(:invoice_item, 1, quantity: 1, unit_price: 100)
+      get "/api/v1/merchants/#{merchant.id}/revenue"
+      expect(response).to be_successful
+      returned_revenue = JSON.parse(response.body)["data"]["attributes"]["revenue"]
+      expect(returned_revenue).to eq "9.00"
     end
   end
 
