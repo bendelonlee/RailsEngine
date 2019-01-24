@@ -39,7 +39,7 @@ RSpec.describe Merchant, type: :model do
       create_list(:invoice_item, 1, quantity: 1, unit_price: 100, item: item, invoice: invoice)
 
       create_list(:invoice_item, 1, quantity: 1, unit_price: 100)
-      expect(merchant.total_revenue).to eq(900)
+      expect(merchant.revenue).to eq(900)
     end
   end
 end

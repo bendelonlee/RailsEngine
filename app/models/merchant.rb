@@ -13,10 +13,7 @@ class Merchant < ApplicationRecord
     .group(:id)
   end
 
-  def total_revenue
-    Merchant.merchants_with_invoice_items
-         .where(invoices: {merchant_id: self.id} )
-         .select("sum(invoice_items.unit_price * invoice_items.quantity) as revenue")
-         .first.revenue
+  def revenue
+    Merchant.merchants_with_invoice_items.where(invoices: {merchant_id: self.id} ).select("sum(invoice_items.unit_price * invoice_items.quantity) as total_revenue").first.total_revenue
   end
 end
