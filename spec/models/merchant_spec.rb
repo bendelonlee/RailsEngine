@@ -8,6 +8,7 @@ RSpec.describe Merchant, type: :model do
   describe "class methods" do
     before(:each) do
       @m1, @m2, @m3, @m4, @m5 = create_list(:merchant, 5)
+      @date = "2012-03-09 01:54:10 UTC"
 
       item_4 = create(:item, merchant: @m5)
       item_3 = create(:item,  merchant: @m1)
@@ -17,9 +18,9 @@ RSpec.describe Merchant, type: :model do
 
       invoice_4 = create(:invoice, merchant: @m5 )
       invoice_3 = create(:invoice,  merchant: @m1 )
-      invoice_2 = create(:invoice, merchant: @m4 )
-      invoice_1 = create(:invoice,  merchant: @m2 )
-      invoice_0 = create(:invoice,  merchant: @m3 )
+      invoice_2 = create(:invoice, merchant: @m4, updated_at: @date)
+      invoice_1 = create(:invoice,  merchant: @m2, updated_at: @date)
+      invoice_0 = create(:invoice,  merchant: @m3, updated_at: @date)
 
       create_list(:invoice_item, 5, quantity: 2, item: item_4, unit_price: 1000, invoice: invoice_4)
       create_list(:invoice_item, 1, quantity: 2, item: item_3, unit_price: 2000, invoice: invoice_3)
@@ -31,6 +32,9 @@ RSpec.describe Merchant, type: :model do
     end
     it '.merchants_by_most_items' do
       expect(Merchant.merchants_by_most_items(3)).to eq([@m2,@m5,@m4])
+    end
+    it 'total_revene_from_date' do
+      expect(Merchant.total_revene_from_date(@date.to_s)).to eq(940)
     end
   end
   describe 'instance methods' do

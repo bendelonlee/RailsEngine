@@ -3,18 +3,18 @@ require "rails_helper"
 describe 'Merchant business intelligence endpoints for all merchants' do
   before(:each) do
     @m1, @m2, @m3, @m4, @m5 = create_list(:merchant, 5)
-
+    @date = "2012-03-09 01:54:10 UTC"
     item_4 = create(:item, merchant: @m5)
     item_3 = create(:item,  merchant: @m1)
     item_2 = create(:item, merchant: @m4)
     item_1 = create(:item,  merchant: @m2)
     item_0 = create(:item,  merchant: @m3)
 
-    invoice_4 = create(:invoice, merchant: @m5)
-    invoice_3 = create(:invoice,  merchant: @m1)
-    invoice_2 = create(:invoice, merchant: @m4)
-    invoice_1 = create(:invoice,  merchant: @m2)
-    invoice_0 = create(:invoice,  merchant: @m3)
+    invoice_4 = create(:invoice, merchant: @m5 )
+    invoice_3 = create(:invoice,  merchant: @m1 )
+    invoice_2 = create(:invoice, merchant: @m4, updated_at: @date)
+    invoice_1 = create(:invoice,  merchant: @m2, updated_at: @date)
+    invoice_0 = create(:invoice,  merchant: @m3, updated_at: @date)
 
     create_list(:invoice_item, 5, quantity: 2, item: item_4, unit_price: 1000, invoice: invoice_4)
     create_list(:invoice_item, 1, quantity: 2, item: item_3, unit_price: 2000, invoice: invoice_3)
@@ -39,6 +39,12 @@ describe 'Merchant business intelligence endpoints for all merchants' do
     expect(returned_merchants.first["id"]).to eq(@m2.id.to_s)
     expect(returned_merchants.second["id"]).to eq(@m5.id.to_s)
     expect(returned_merchants.third["id"]).to eq(@m4.id.to_s)
+  end
+  it 'returns revenue across all merchants for a given date' do
+    get "/api/v1/merchants/revenue?date=#{@date}"
+    expect(response).to be_successful
+    returned_revenue = JSON.parse(response.body)["data"]["attributes"]["total_revenue"]
+    expect(returned_revenue).to eq "9.40"
   end
 end
 

@@ -17,6 +17,11 @@ class Merchant < ApplicationRecord
     .group("merchants.id")
   end
 
+  def self.total_revene_from_date(date_string)
+    date = Date.parse(date_string)
+    date_range = date.beginning_of_day.. date.end_of_day
+    merchants_with_invoice_items.where(invoices: {updated_at: date_range}).unscope(:group).sum("invoice_items.unit_price * invoice_items.quantity")
+  end
 
   def self.most_revenue(length)
     merchants_with_invoice_items
