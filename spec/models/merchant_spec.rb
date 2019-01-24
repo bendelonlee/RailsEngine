@@ -38,6 +38,29 @@ RSpec.describe Merchant, type: :model do
     end
   end
   describe 'instance methods' do
+    it 'revenue_from_date' do
+      @m1 = create(:merchant,)
+      @date = "2012-03-09 01:54:10 UTC"
+
+      item_4 = create(:item, merchant: @m1)
+      item_3 = create(:item,  merchant: @m1)
+      item_2 = create(:item, merchant: @m1)
+      item_1 = create(:item,  merchant: @m1)
+      item_0 = create(:item,  merchant: @m1)
+
+      invoice_4 = create(:invoice, merchant: @m1 )
+      invoice_3 = create(:invoice,  merchant: @m1 )
+      invoice_2 = create(:invoice, merchant: @m1, updated_at: @date)
+      invoice_1 = create(:invoice,  merchant: @m1, updated_at: @date)
+      invoice_0 = create(:invoice,  merchant: @m1, updated_at: @date)
+
+      create_list(:invoice_item, 5, quantity: 2, item: item_4, unit_price: 1000, invoice: invoice_4)
+      create_list(:invoice_item, 1, quantity: 2, item: item_3, unit_price: 2000, invoice: invoice_3)
+      create_list(:invoice_item, 2, quantity: 4, item: item_2, unit_price: 100, invoice: invoice_2)
+      create_list(:invoice_item, 1, quantity: 14, item: item_1, unit_price: 10, invoice: invoice_1)
+
+      expect(@m1.revenue_from_date(@date.to_s)).to eq(940)
+    end
     it '.favorite_customer' do
       merchant = create(:merchant)
       item = create(:item, merchant: merchant)

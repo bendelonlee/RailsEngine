@@ -35,6 +35,12 @@ class Merchant < ApplicationRecord
          .limit(length)
   end
 
+  def revenue_from_date(date_string)
+    date = Date.parse(date_string)
+    date_range = date.beginning_of_day.. date.end_of_day
+    Merchant.merchants_with_invoice_items.where(invoices: {updated_at: date_range}, id: self.id).unscope(:group).sum("invoice_items.unit_price * invoice_items.quantity")
+  end
+
   def favorite_customer
     Customer.with_invoice_items.joins(invoices: :merchant).where(merchants: {id: self.id} ).order("count(invoice_items) desc").limit(1).first
   end
