@@ -30,8 +30,9 @@ describe 'merchant requests' do
     expect(returned_merchant["id"]).to eq(expected_merchant.id.to_s)
 
     expected_merchant = Merchant.last
-    expected_merchant.update(created_at: 5.days.ago)
-    get "/api/v1/merchants/find?created_at=#{expected_merchant.created_at}"
+    created_at = "2012-03-26 14:58:14 UTC"
+    expected_merchant.update(created_at: created_at)
+    get "/api/v1/merchants/find?created_at=#{created_at}"
 
     returned_merchant = JSON.parse(response.body)["data"]
     expect(returned_merchant["id"]).to eq(expected_merchant.id.to_s)

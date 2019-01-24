@@ -1,16 +1,33 @@
 class Merchant < ApplicationRecord
   has_many :items
   has_many :invoices
-  def self.most_revenue(length)
-    merchants_with_invoice_items
-         .order("sum(invoice_items.unit_price * invoice_items.quantity) desc")
-         .limit(length)
+
+  def self.custom_where(attr, value)
+    case attr
+    when "name"
+      where("upper(#{attr}) = ?", value.upcase)
+    else
+      where(attr => value)
+    end
   end
 
   def self.merchants_with_invoice_items
     joins(invoices: [:invoice_items, :transactions])
     .where(transactions: {result: 0})
     .group("merchants.id")
+  end
+
+
+  def self.most_revenue(length)
+    merchants_with_invoice_items
+         .order("sum(invoice_items.unit_price * invoice_items.quantity) desc")
+         .limit(length)
+  end
+
+  def self.merchants_by_most_items(length)
+    merchants_with_invoice_items
+         .order("sum(invoice_items.quantity) desc")
+         .limit(length)
   end
 
   def favorite_customer
