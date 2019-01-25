@@ -2,14 +2,6 @@ class Merchant < ApplicationRecord
   has_many :items
   has_many :invoices
 
-  def self.custom_where(attr, value)
-    case attr
-    when "name"
-      where("upper(#{attr}) = ?", value.upcase)
-    else
-      where(attr => value)
-    end
-  end
 
   def self.merchants_with_invoice_items
     joins(invoices: [:invoice_items, :transactions])
