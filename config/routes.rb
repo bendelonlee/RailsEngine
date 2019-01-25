@@ -15,7 +15,7 @@ Rails.application.routes.draw do
         get "most_items", to: "quantity#index"
         get ":id/best_day", to: "best_day#show"
       end
-      ob_name = [:merchants, :customers, :items, :invoices, :invoice_items]
+      ob_name = [:merchants, :customers, :items, :invoices, :invoice_items, :transactions]
       ob_name.each do |ob_name|
         namespace ob_name do
           get "find", to: "search#show"
@@ -27,6 +27,7 @@ Rails.application.routes.draw do
       resources :items, only: [:index, :show]
       resources :invoices, only: [:index, :show]
       resources :invoice_items, only: [:index, :show]
+      resources :transactions, only: [:index, :show]
     end
   end
 end
