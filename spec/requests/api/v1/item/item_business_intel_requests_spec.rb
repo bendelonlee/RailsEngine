@@ -14,8 +14,8 @@ describe 'item business intelligence requests' do
     expect(response).to be_successful
     returned_items = JSON.parse(response.body)["data"]
     expect(returned_items.count).to eq(3)
-    expect(returned_items.first["id"]).to eq(@m3.id.to_s)
-    expect(returned_items.second["id"]).to eq(@m2.id.to_s)
-    expect(returned_items.third["id"]).to eq(@m4.id.to_s)
+    expect(returned_items.first["id"]).to eq(@i3.id.to_s)
+    expect(returned_items.second["id"]).to eq(@i2.id.to_s)
+    expect(returned_items.third["id"]).to eq(@i4.id.to_s)
   end
 end
