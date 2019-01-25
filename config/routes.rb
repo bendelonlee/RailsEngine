@@ -18,7 +18,7 @@ Rails.application.routes.draw do
       namespace :invoices do
 
       end
-      ob_name = [:merchants, :items, :invoices]
+      ob_name = [:merchants, :items, :invoices, :customers]
       ob_name.each do |ob_name|
         namespace ob_name do
           get "find", to: "search#show"
@@ -27,6 +27,7 @@ Rails.application.routes.draw do
       end
       resources :items, only: [:index, :show]
       resources :invoices, only: [:index, :show]
+      resources :customers, only: [:index, :show]
       resources :merchants, only: [:index, :show]
     end
   end
