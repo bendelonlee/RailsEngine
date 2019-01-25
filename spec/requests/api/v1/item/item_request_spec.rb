@@ -20,6 +20,15 @@ describe 'item requests' do
     expect(response).to be_successful
     returned_item = JSON.parse(response.body)["data"]
     expect(returned_item["id"]).to eq(id.to_s)
+  end
+  it "finds items" do
+    merchant = create(:merchant)
+    id = create(:item, merchant: merchant).id
 
+    get "/api/v1/items/find?id=#{id}"
+
+    expect(response).to be_successful
+    returned_item = JSON.parse(response.body)["data"]
+    expect(returned_item["id"]).to eq(id.to_s)
   end
 end

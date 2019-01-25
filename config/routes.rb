@@ -13,6 +13,8 @@ Rails.application.routes.draw do
         get ":id/favorite_customer", to: "customer_intelligence#show"
       end
       namespace :items do
+        get "find", to: "search#show"
+        get "find_all", to: "search#index"
         get "most_items", to: "quantity#index"
         get ":id/best_day", to: "best_day#show"
       end
