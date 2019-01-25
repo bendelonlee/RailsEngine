@@ -13,7 +13,7 @@ class Item < ApplicationRecord
 
   def best_day
     column = "invoices.updated_at"
-    Item.items_with_successful_invoices.select(column).group(column).order("sum(invoice_items.quantity * invoice_items.unit_price) DESC, #{column} DESC").limit(1)[0].updated_at
+    Item.items_with_successful_invoices.select(column).group(column).where(id: self.id).order("sum(invoice_items.quantity * invoice_items.unit_price) DESC, #{column} DESC").limit(1)[0].updated_at
   end
 
 end

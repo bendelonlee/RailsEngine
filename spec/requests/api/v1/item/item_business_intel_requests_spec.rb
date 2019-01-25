@@ -34,7 +34,7 @@ describe 'item business intelligence requests' do
       get "/api/v1/items/#{item_1.id}/best_day"
       expect(response).to be_successful
       returned_item = JSON.parse(response.body)["data"]
-      expect(returned_item["attributes"]["best_day"]).to eq(date_2.to_s)
+      expect(returned_item["attributes"]["best_day"]).to eq(date_2.utc.iso8601(3))
     end
   end
 end
