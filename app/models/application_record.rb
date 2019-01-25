@@ -5,6 +5,9 @@ class ApplicationRecord < ActiveRecord::Base
     case attr
     when "name"
       where("upper(#{attr}) = ?", value.upcase)
+    when "unit_price"
+      value = value.delete(".").to_i
+      where(attr => value)
     else
       where(attr => value)
     end
