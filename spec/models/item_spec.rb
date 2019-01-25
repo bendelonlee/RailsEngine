@@ -19,4 +19,18 @@ RSpec.describe Item, type: :model do
       expect(Item.by_most_items(3)).to eq([@i3, @i2, @i4])
     end
   end
+  describe 'instance methods' do
+    it 'best_day' do
+      date_1 = 5.days.ago
+      date_2 = 3.days.ago
+      item_1 = create(:item)
+      invoice_1 = create(:invoice, created_at: 5.days.ago, updated_at: date_1)
+      invoice_2 = create(:invoice, created_at: 5.days.ago, updated_at: date_2)
+      create_list(:invoice_item,4, item: item_1, quantity: 1, invoice: invoice_2)
+      create_list(:invoice_item,1, item: item_1, quantity: 4, invoice: invoice_1)
+      create_list(:invoice_item,1, item: item_1, quantity: 3)
+
+      expect(item_1.best_day).to eq(date_2)
+    end
+  end
 end
