@@ -12,6 +12,9 @@ Rails.application.routes.draw do
         get "most_items", to: "merchants_by_most_items#index"
         get ":id/favorite_customer", to: "customer_intelligence#show"
       end
+      namespace :items do
+        get "most_items", to: "quantity#index"
+      end
       resources :items, only: [:index, :show]
       resources :merchants, only: [:index, :show]
     end
