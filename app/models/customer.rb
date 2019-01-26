@@ -1,5 +1,6 @@
 class Customer < ApplicationRecord
   has_many :invoices
+  has_many :transactions, through: :invoices
   def self.with_invoice_items
     joins(invoices: [:invoice_items, :transactions])
     .where(transactions: {result: 0})
