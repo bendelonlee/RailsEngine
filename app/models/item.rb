@@ -11,6 +11,10 @@ class Item < ApplicationRecord
     Item.items_with_successful_invoices.select("items.*, sum(invoice_items.quantity) as total_quantity").group(:id).order("total_quantity DESC").limit(length)
   end
 
+  def self.by_most_revenue(length)
+    Item.items_with_successful_invoices.select("items.*, sum(invoice_items.quantity * invoice_items.unit_price) as total_revenue").group(:id).order("total_revenue DESC").limit(length)
+  end
+
   def best_day
     column = "invoices.updated_at"
     Item.items_with_successful_invoices.select(column).group(column).where(id: self.id).order("sum(invoice_items.quantity * invoice_items.unit_price) DESC, #{column} DESC").limit(1)[0].updated_at
