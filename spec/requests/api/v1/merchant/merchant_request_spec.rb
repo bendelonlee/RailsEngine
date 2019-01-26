@@ -53,8 +53,8 @@ describe 'merchant requests' do
     it 'finds all by name' do
       @attribute = {name: "Jerry"}
     end
-    xit 'finds all by updated_at' do
-      @attribute = {updated_at: 1.days.ago}
+    it 'finds all by updated_at' do
+      @attribute = {updated_at: '2012-03-27 14:54:09 UTC'}
     end
     after(:each) do
       @expected_merchants.update(name: @attribute[:name])
