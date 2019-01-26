@@ -2,6 +2,7 @@ class ApplicationRecord < ActiveRecord::Base
   self.abstract_class = true
 
   def self.custom_where(attr, value)
+    require 'pry'; binding.pry if attr == "udpdated_at"
     case attr
     when "name"
       where("upper(#{attr}) = ?", value.upcase)

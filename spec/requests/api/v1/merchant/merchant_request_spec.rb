@@ -53,12 +53,12 @@ describe 'merchant requests' do
     it 'finds all by name' do
       @attribute = {name: "Jerry"}
     end
-    it 'finds all by updated_at' do
-      @attribute = {updated_at: '2012-03-27 14:54:09 UTC'}
+    it 'finds all by created_at' do
+      @attribute = {created_at: '2012-03-27 14:54:09 UTC'}
     end
     after(:each) do
-      @expected_merchants.update(name: @attribute[:name])
       attr_name = @attribute.keys[0]
+      @expected_merchants.update(attr_name => @attribute[attr_name])
       get "/api/v1/merchants/find_all?#{attr_name}=#{@attribute[attr_name]}"
       returned_merchants = JSON.parse(response.body)["data"]
       returned_ids = returned_merchants.map{|m| m["id"]}
