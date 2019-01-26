@@ -28,7 +28,10 @@ Rails.application.routes.draw do
         get "invoices", to: "invoices#index"
         get "transactions", to: "transactions#index"
       end
-      resources :items, only: [:index, :show]
+      resources :items, only: [:index, :show], module: :items do
+        get "invoice_items", to: "invoice_items#index"
+        get "merchant", to: "merchants#show"
+      end
       resources :invoices, only: [:index, :show], module: :invoices do
         get "transactions", to: "transactions#index"
         get "items", to: "items#index"
