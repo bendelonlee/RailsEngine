@@ -36,11 +36,31 @@ class Merchant < ApplicationRecord
   def favorite_customer
     Customer.with_successful_invoices
       .joins(invoices: :merchant)
-      .where(merchants: {id: self.id} )
+      .where(invoices: {merchant_id: self.id})
       .order("count(invoice_items) desc").limit(1).first
   end
 
   def revenue
     Merchant.with_successful_invoices.where(id: self.id).select("merchants.id, sum(invoice_items.unit_price * invoice_items.quantity) as total_revenue").first.total_revenue
+  end
+
+  def customers_with_pending_invoices
+    Customer.find_by_sql(["SELECT c.*
+                            FROM customers c
+                            INNER JOIN invoices i
+                            ON c.id = i.customer_id
+                            INNER JOIN transactions t
+                            ON i.id = t.invoice_id
+                            WHERE t.result = 1
+                            AND i.merchant_id = ?
+                          EXCEPT
+                          SELECT c.*
+                            FROM customers c
+                            INNER JOIN invoices i
+                            ON c.id = i.customer_id
+                            INNER JOIN transactions t
+                            ON i.id = t.invoice_id
+                            WHERE t.result = 0
+                            AND i.merchant_id = ?", self.id, self.id])
   end
 end

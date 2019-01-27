@@ -82,6 +82,21 @@ RSpec.describe Merchant, type: :model do
       create_list(:invoice_item, 1, quantity: 1, unit_price: 100)
       expect(merchant.revenue).to eq(900)
     end
+    it '.customers_with_pending_invoices' do
+      merchant = create(:merchant)
+      item = create(:item, merchant: merchant)
+      customer_1 = create(:customer)
+      customer_2 = create(:customer)
+      customer_3 = create(:customer)
+      invoice_1 = create(:invoice, merchant: merchant, customer: customer_1, items: [item])
+      invoice_2 = create(:invoice, merchant: merchant, customer: customer_2, items: [item])
+      invoice_3 = create(:invoice, merchant: merchant, customer: customer_3, items: [item])
 
+      create(:transaction, invoice: invoice_1, result: :failed)
+      invoice_2.transactions.update(result: :failed)
+      actual = merchant.customers_with_pending_invoices
+      expect(actual.size).to eq(1)
+      expect(actual.first).to eq(customer_2)
+    end
   end
 end

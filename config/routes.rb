@@ -8,6 +8,7 @@ Rails.application.routes.draw do
         get ":id/revenue", to: "revenue#show"
         get "most_items", to: "merchants_by_most_items#index"
         get ":id/favorite_customer", to: "customer_intelligence#show"
+        get ":id/customers_with_pending_invoices", to: "customers_with_pending_invoices#index"
       end
       namespace :items do
         get "most_revenue", to: "revenue#index"

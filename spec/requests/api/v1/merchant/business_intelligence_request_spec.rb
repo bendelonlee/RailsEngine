@@ -105,4 +105,24 @@ describe 'Merchant business intelligence endpoints for individual merchants' do
     returned_customer = JSON.parse(response.body)["data"]
     expect(returned_customer["id"]).to eq(customer_1.id.to_s)
   end
+
+  it 'returns a customers with pending invoices' do
+    merchant = create(:merchant)
+    item = create(:item, merchant: merchant)
+    customer_1 = create(:customer)
+    customer_2 = create(:customer)
+    customer_3 = create(:customer)
+    invoice_1 = create(:invoice, merchant: merchant, customer: customer_1, items: [item])
+    invoice_2 = create(:invoice, merchant: merchant, customer: customer_2, items: [item])
+    invoice_3 = create(:invoice, merchant: merchant, customer: customer_3, items: [item])
+
+    create(:transaction, invoice: invoice_1, result: :failed)
+    invoice_2.transactions.update(result: :failed)
+
+    get "/api/v1/merchants/#{merchant.id}/customers_with_pending_invoices"
+    expect(response).to be_successful
+    returned_customers = JSON.parse(response.body)["data"]
+    expect(returned_customers.size).to eq(1)
+    expect(returned_customers.first["id"]).to eq(customer_2.id.to_s)
+  end
 end
