@@ -1,6 +1,6 @@
 class Api::V1::Transactions::SearchController < ApplicationController
   def show
-    render json: TransactionSerializer.new(Transaction.custom_where(transaction_params.to_h).first)
+    render json: TransactionSerializer.new(Transaction.custom_where(transaction_params.to_h).limit(1).first)
   end
   def index
     render json: TransactionSerializer.new(Transaction.custom_where(transaction_params.to_h))

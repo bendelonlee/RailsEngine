@@ -1,6 +1,6 @@
 class Api::V1::Invoices::SearchController < ApplicationController
   def show
-    render json: InvoiceSerializer.new(Invoice.custom_where(invoice_params.to_h).first)
+    render json: InvoiceSerializer.new(Invoice.custom_where(invoice_params.to_h).limit(1).first)
   end
   def index
     render json: InvoiceSerializer.new(Invoice.custom_where(invoice_params.to_h))
