@@ -1,10 +1,14 @@
 class Api::V1::Transactions::SearchController < ApplicationController
   def show
-    attribute = (Transaction.attribute_names & params.keys).first
-    render json: TransactionSerializer.new(Transaction.custom_where(attribute, params[attribute]).first)
+    render json: TransactionSerializer.new(Transaction.custom_where(transaction_params.to_h).first)
   end
   def index
-    attribute = (Transaction.attribute_names & params.keys).first
-    render json: TransactionSerializer.new(Transaction.custom_where(attribute, params[attribute]))
+    render json: TransactionSerializer.new(Transaction.custom_where(transaction_params.to_h))
+  end
+
+  private
+
+  def transaction_params
+    params.permit(Transaction.attribute_names)
   end
 end

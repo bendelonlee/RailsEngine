@@ -1,10 +1,14 @@
 class Api::V1::InvoiceItems::SearchController < ApplicationController
   def show
-    attribute = (InvoiceItem.attribute_names & params.keys).first
-    render json: InvoiceItemSerializer.new(InvoiceItem.custom_where(attribute, params[attribute]).first)
+    render json: InvoiceItemSerializer.new(InvoiceItem.custom_where(invoice_item_params.to_h).first)
   end
   def index
-    attribute = (InvoiceItem.attribute_names & params.keys).first
-    render json: InvoiceItemSerializer.new(InvoiceItem.custom_where(attribute, params[attribute]))
+    render json: InvoiceItemSerializer.new(InvoiceItem.custom_where(invoice_item_params.to_h))
+  end
+
+  private
+
+  def invoice_item_params
+    params.permit(InvoiceItem.attribute_names)
   end
 end

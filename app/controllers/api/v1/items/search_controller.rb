@@ -1,10 +1,14 @@
 class Api::V1::Items::SearchController < ApplicationController
   def show
-    attribute = (Item.attribute_names & params.keys).first
-    render json: ItemSerializer.new(Item.custom_where(attribute, params[attribute]).first)
+    render json: ItemSerializer.new(Item.custom_where(item_params.to_h).first)
   end
   def index
-    attribute = (Item.attribute_names & params.keys).first
-    render json: ItemSerializer.new(Item.custom_where(attribute, params[attribute]))
+    render json: ItemSerializer.new(Item.custom_where(item_params.to_h))
+  end
+
+  private
+
+  def item_params
+    params.permit(Item.attribute_names)
   end
 end

@@ -1,10 +1,14 @@
 class Api::V1::Merchants::SearchController < ApplicationController
   def show
-    attribute = (Merchant.attribute_names & params.keys).first
-    render json: MerchantSerializer.new(Merchant.custom_where(attribute, params[attribute]).first)
+    render json: MerchantSerializer.new(Merchant.custom_where(merchant_params.to_h).first)
   end
   def index
-    attribute = (Merchant.attribute_names & params.keys).first
-    render json: MerchantSerializer.new(Merchant.custom_where(attribute, params[attribute]))
+    render json: MerchantSerializer.new(Merchant.custom_where(merchant_params.to_h))
+  end
+
+  private
+
+  def merchant_params
+    params.permit(Merchant.attribute_names)
   end
 end
