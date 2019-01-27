@@ -47,4 +47,14 @@ describe 'invoice_item requests' do
 
     expect(returned_ids).to eq(expected_ids)
   end
+  it 'returns a random invoice_item' do
+    invoice_item_1 = create(:invoice_item)
+    invoice_item_2 = create(:invoice_item)
+
+    get "/api/v1/invoice_items/random"
+
+    expect(response).to be_successful
+    returned_invoice_item = JSON.parse(response.body)["data"]
+    expect(returned_invoice_item["type"]).to eq("invoice_item")
+  end
 end

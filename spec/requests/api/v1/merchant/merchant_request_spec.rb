@@ -65,4 +65,14 @@ describe 'merchant requests' do
       expect(returned_ids).to eq(@expected_ids)
     end
   end
+  it 'returns a random merchant' do
+    merchant_1 = create(:merchant)
+    merchant_2 = create(:merchant)
+
+    get "/api/v1/merchants/random"
+
+    expect(response).to be_successful
+    returned_merchant = JSON.parse(response.body)["data"]
+    expect(returned_merchant["type"]).to eq("merchant")
+  end
 end

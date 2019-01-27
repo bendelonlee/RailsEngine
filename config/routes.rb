@@ -22,6 +22,7 @@ Rails.application.routes.draw do
         namespace ob_name do
           get "find", to: "search#show"
           get "find_all", to: "search#index"
+          get "random", to: "random#show"
         end
       end
       resources :merchants, only: [:index, :show], module: :merchants do

@@ -43,4 +43,14 @@ describe 'transaction requests' do
 
     expect(returned_ids).to eq(expected_ids)
   end
+  it 'returns a random transaction' do
+    transaction_1 = create(:transaction)
+    transaction_2 = create(:transaction)
+
+    get "/api/v1/transactions/random"
+
+    expect(response).to be_successful
+    returned_transaction = JSON.parse(response.body)["data"]
+    expect(returned_transaction["type"]).to eq("transaction")
+  end
 end

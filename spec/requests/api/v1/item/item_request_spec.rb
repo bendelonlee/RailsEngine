@@ -47,4 +47,14 @@ describe 'item requests' do
 
     expect(returned_ids).to eq(expected_ids)
   end
+  it 'returns a random item' do
+    item_1 = create(:item)
+    item_2 = create(:item)
+
+    get "/api/v1/items/random"
+
+    expect(response).to be_successful
+    returned_item = JSON.parse(response.body)["data"]
+    expect(returned_item["type"]).to eq("item")
+  end
 end

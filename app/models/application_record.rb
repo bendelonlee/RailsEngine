@@ -14,4 +14,8 @@ class ApplicationRecord < ActiveRecord::Base
     end
   end
 
+  def self.custom_sample
+    self.limit(1).order("RANDOM()").first
+  end
+
 end

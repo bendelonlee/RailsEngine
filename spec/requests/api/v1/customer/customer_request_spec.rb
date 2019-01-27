@@ -46,4 +46,14 @@ describe 'customer requests' do
 
     expect(returned_ids).to eq(expected_ids)
   end
+  it 'returns a random customer' do
+    customer_1 = create(:customer)
+    customer_2 = create(:customer)
+
+    get "/api/v1/customers/random"
+
+    expect(response).to be_successful
+    returned_customer = JSON.parse(response.body)["data"]
+    expect(returned_customer["type"]).to eq("customer")
+  end
 end
