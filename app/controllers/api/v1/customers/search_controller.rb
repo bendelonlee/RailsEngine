@@ -1,9 +1,11 @@
 class Api::V1::Customers::SearchController < ApplicationController
   def show
-    render json: CustomerSerializer.new(Customer.custom_where(customer_params.to_h).limit(1).first)
+    customer = Customer.custom_where(customer_params.to_h).limit(1).first
+    render json: CustomerSerializer.new(customer)
   end
   def index
-    render json: CustomerSerializer.new(Customer.custom_where(customer_params.to_h))
+    customer = Customer.custom_where(customer_params.to_h)
+    render json: CustomerSerializer.new(customer)
   end
 
   private
